@@ -8,7 +8,7 @@
 # You should have received a copy of the CC0 Public Domain Dedication along with
 # this software. If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
 
-cmake_minimum_required(VERSION 3.10.2) # version supported by android studio
+cmake_minimum_required(VERSION 3.11) # minimum version required for FetchContent
 project(bgfx)
 cmake_policy(SET CMP0054 NEW)
 
@@ -79,18 +79,72 @@ if(BGFX_BUILD_TESTS)
 	enable_testing()
 endif()
 
+include(FetchContent)
+
+# Setting *_GIT_REPOSITORY and *_GIT_TAG variables would allow you to choose between different repositories and/or
+# tags to be used in the build process instead of the originally targeted ones.
+# Those could be forks or in-development features that are desirable to be tested using the CMake build system
+
 if(NOT BX_DIR)
-	set(BX_DIR "${CMAKE_CURRENT_SOURCE_DIR}/bx" CACHE STRING "Location of bx.")
+	if(NOT BX_GIT_REPOSITORY)
+		set(BX_GIT_REPOSITORY https://github.com/bkaradzic/bx.git)
+	endif()
+
+	if(NOT BX_GIT_TAG)
+		set(BX_GIT_TAG 89ba00e6cd5601093592c8b4c0a2e078cb2d188d)
+	endif()
+
+	message(STATUS "Using bx git repository ${BX_GIT_REPOSITORY}:${BX_GIT_TAG}")
+
+	FetchContent_Declare(bx GIT_REPOSITORY ${BX_GIT_REPOSITORY} GIT_TAG ${BX_GIT_TAG})
+
+	FetchContent_Populate(bx)
+
+	if(bx_POPULATED)
+		set(BX_DIR "${bx_SOURCE_DIR}" CACHE STRING "Location of bx.")
+	endif()
 elseif(NOT IS_ABSOLUTE "${BX_DIR}")
 	get_filename_component(BX_DIR "${BX_DIR}" REALPATH BASE_DIR "${CMAKE_CURRENT_SOURCE_DIR}")
 endif()
 if(NOT BIMG_DIR)
-	set(BIMG_DIR "${CMAKE_CURRENT_SOURCE_DIR}/bimg" CACHE STRING "Location of bimg.")
+	if(NOT BIMG_GIT_REPOSITORY)
+		set(BIMG_GIT_REPOSITORY https://github.com/bkaradzic/bimg.git)
+	endif()
+
+	if(NOT BIMG_GIT_TAG)
+		set(BIMG_GIT_TAG 6c4d1888eb2003b0186ca7a5b3484ff054cf03cd)
+	endif()
+
+	FetchContent_Declare(bimg GIT_REPOSITORY ${BIMG_GIT_REPOSITORY} GIT_TAG ${BIMG_GIT_TAG})
+
+	FetchContent_Populate(bimg)
+
+	message(STATUS "Using bimg git repository ${BIMG_GIT_REPOSITORY}:${BIMG_GIT_TAG}")
+
+	if(bimg_POPULATED)
+		set(BIMG_DIR "${bimg_SOURCE_DIR}" CACHE STRING "Location of bimg.")
+	endif()
 elseif(NOT IS_ABSOLUTE "${BIMG_DIR}")
 	get_filename_component(BIMG_DIR "${BIMG_DIR}" REALPATH BASE_DIR "${CMAKE_CURRENT_SOURCE_DIR}")
 endif()
 if(NOT BGFX_DIR)
-	set(BGFX_DIR "${CMAKE_CURRENT_SOURCE_DIR}/bgfx" CACHE STRING "Location of bgfx.")
+	if(NOT BGFX_GIT_REPOSITORY)
+		set(BGFX_GIT_REPOSITORY https://github.com/bkaradzic/bgfx.git)
+	endif()
+
+	if(NOT BGFX_GIT_TAG)
+		set(BGFX_GIT_TAG 07be0f213acd73a4f6845dc8f7b20b93f66b7cc4)
+	endif()
+
+	message(STATUS "Using bgfx git repository ${BGFX_GIT_REPOSITORY}:${BGFX_GIT_TAG}")
+
+	FetchContent_Declare(bgfx GIT_REPOSITORY ${BGFX_GIT_REPOSITORY} GIT_TAG ${BGFX_GIT_TAG})
+
+	FetchContent_Populate(bgfx)
+
+	if(bgfx_POPULATED)
+		set(BGFX_DIR "${bgfx_SOURCE_DIR}" CACHE STRING "Location of bgfx.")
+	endif()
 elseif(NOT IS_ABSOLUTE "${BGFX_DIR}")
 	get_filename_component(BGFX_DIR "${BGFX_DIR}" REALPATH BASE_DIR "${CMAKE_CURRENT_SOURCE_DIR}")
 endif()
