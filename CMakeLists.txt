@@ -69,6 +69,9 @@ set(BGFX_CONFIG_MAX_SHADERS "" CACHE STRING "Specify shader count")
 set(BGFX_CONFIG_SORT_KEY_NUM_BITS_PROGRAM "" CACHE STRING "Specify maximum program count as 2^(program bits)")
 set(BGFX_CMAKE_USER_SCRIPT "" CACHE STRING "Path to custom cmake script to include")
 
+set(BGFX_CONFIG_TRANSIENT_VERTEX_BUFFER_SIZE "" CACHE STRING "Specify transient vertex buffer size")
+set(BGFX_CONFIG_TRANSIENT_INDEX_BUFFER_SIZE "" CACHE STRING "Specify transient index buffer size")
+
 if(BGFX_CMAKE_USER_SCRIPT)
 	include(${BGFX_CMAKE_USER_SCRIPT})
 endif()
