@@ -101,7 +101,7 @@ if(NOT BX_DIR)
 
 	FetchContent_Declare(bx GIT_REPOSITORY ${BX_GIT_REPOSITORY} GIT_TAG ${BX_GIT_TAG})
 
-	FetchContent_Populate(bx)
+	FetchContent_MakeAvailable(bx)
 
 	if(bx_POPULATED)
 		set(BX_DIR "${bx_SOURCE_DIR}" CACHE STRING "Location of bx.")
@@ -120,7 +120,7 @@ if(NOT BIMG_DIR)
 
 	FetchContent_Declare(bimg GIT_REPOSITORY ${BIMG_GIT_REPOSITORY} GIT_TAG ${BIMG_GIT_TAG})
 
-	FetchContent_Populate(bimg)
+	FetchContent_MakeAvailable(bimg)
 
 	message(STATUS "Using bimg git repository ${BIMG_GIT_REPOSITORY}:${BIMG_GIT_TAG}")
 
@@ -143,7 +143,7 @@ if(NOT BGFX_DIR)
 
 	FetchContent_Declare(bgfx GIT_REPOSITORY ${BGFX_GIT_REPOSITORY} GIT_TAG ${BGFX_GIT_TAG})
 
-	FetchContent_Populate(bgfx)
+	FetchContent_MakeAvailable(bgfx)
 
 	if(bgfx_POPULATED)
 		set(BGFX_DIR "${bgfx_SOURCE_DIR}" CACHE STRING "Location of bgfx.")
